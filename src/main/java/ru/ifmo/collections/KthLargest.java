@@ -26,6 +26,11 @@ public class KthLargest {
         this.k = k;
     }
 
+    public int add(int val) {
+        insert(val);
+        return list.get(k - 1);
+    }
+
     private void insert(int value) {
         int position = Collections.binarySearch(list, value, Collections.reverseOrder());
         if (position < 0) {
@@ -33,10 +38,5 @@ public class KthLargest {
         } else {
             list.add(position, value);
         }
-    }
-
-    public int add(int val) {
-        insert(val);
-        return list.get(k - 1);
     }
 }
