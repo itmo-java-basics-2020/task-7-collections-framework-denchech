@@ -13,43 +13,37 @@ import java.util.Map;
  * <p>
  * Implementing this cache in (almost) the same manner as it was implemented during the lecture will result in extra points.
  */
-public class LruCache<K, V> {
+public class LruCache<K, V> extends LinkedHashMap<K, V> {
     private static final float MAX_LOAD_FACTOR = 1.0f;
 
     private final int capacity;
-    private final Map<K, V> cache;
 
     public LruCache(int capacity) {
-        if (capacity < 1) {
-            throw new IllegalArgumentException("Capacity must be positive");
-        }
+        super(capacity, MAX_LOAD_FACTOR, false);
         this.capacity = capacity;
-        this.cache = new LinkedHashMap<>(capacity, MAX_LOAD_FACTOR, false);
     }
 
-    public V get(K key) {
-        if (cache.containsKey(key)) {
-            V value = cache.get(key);
-            cache.remove(key);
-            cache.put(key, value);
-            return value;
-        } else {
-            return null;
+    @Override
+    public V get(Object key) {
+        V value = super.remove(key);
+        if (value != null) {
+            super.put((K) key, value);
         }
+        return value;
     }
 
-    public void put(K key, V value) {
-        removeOldestIfRequired();
-        cache.put(key, value);
+    @Override
+    public V put(K key, V value) {
+        super.remove(key);
+        return super.put(key, value);
     }
 
     public int elements() {
-        return cache.size();
+        return size();
     }
 
-    private void removeOldestIfRequired() {
-        if (cache.size() >= capacity) {
-            cache.remove(cache.keySet().iterator().next());
-        }
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
     }
 }

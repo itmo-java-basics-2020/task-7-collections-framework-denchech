@@ -2,9 +2,9 @@ package ru.ifmo.collections;
 
 import java.util.AbstractSet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -41,11 +41,11 @@ public class SortedSet<T> extends AbstractSet<T> {
         return new SortedSet<>(comparator);
     }
 
-    public Collection<T> getSorted() {
+    public List<T> getSorted() {
         return new ArrayList<>(contents.keySet());
     }
 
-    public Collection<T> getReversed() {
+    public List<T> getReversed() {
         return new ArrayList<>(contents.descendingKeySet());
     }
 
