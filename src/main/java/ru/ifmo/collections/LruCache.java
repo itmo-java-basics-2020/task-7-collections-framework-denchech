@@ -24,7 +24,7 @@ public class LruCache<K, V> {
             throw new IllegalArgumentException("Capacity must be positive");
         }
         this.capacity = capacity;
-        this.cache = new LinkedHashMap<>(capacity + 1, MAX_LOAD_FACTOR, false);
+        this.cache = new LinkedHashMap<>(capacity, MAX_LOAD_FACTOR, false);
     }
 
     public V get(K key) {

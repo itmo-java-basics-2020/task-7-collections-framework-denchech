@@ -3,11 +3,9 @@ package ru.ifmo.collections;
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -26,7 +24,15 @@ import java.util.TreeMap;
 public class SortedSet<T> extends AbstractSet<T> {
     private static final Object PRESENT = new Object();
 
-    private final Map<T, Object> contents;
+    private final TreeMap<T, Object> contents;
+
+    private SortedSet() {
+        contents = new TreeMap<>();
+    }
+
+    private SortedSet(Comparator<T> comparator) {
+        contents = new TreeMap<>(comparator);
+    }
 
     public static <T> SortedSet<T> create() {
         return new SortedSet<>();
@@ -41,9 +47,7 @@ public class SortedSet<T> extends AbstractSet<T> {
     }
 
     public Collection<T> getReversed() {
-        List<T> list = new ArrayList<>(contents.keySet());
-        Collections.reverse(list);
-        return list;
+        return new ArrayList<>(contents.descendingKeySet());
     }
 
     @Override
@@ -64,13 +68,5 @@ public class SortedSet<T> extends AbstractSet<T> {
     @Override
     public int size() {
         return contents.size();
-    }
-
-    private SortedSet() {
-        contents = new TreeMap<>();
-    }
-
-    private SortedSet(Comparator<T> comparator) {
-        contents = new TreeMap<>(comparator);
     }
 }
